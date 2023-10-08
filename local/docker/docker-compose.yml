@@ -1,0 +1,37 @@
+services:
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=MVC_db
+    volumes:
+      - "/d/code/github/de-motor-collision-data-pipeline/local/docker/pgdata:/var/lib/postgresql/data:rw"
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    volumes:
+      - "/d/code/github/de-motor-collision-data-pipeline/local/docker/pgadmin_data:/var/lib/pgadmin/data:rw"
+    ports:
+      - "8080:80"
+
+  metabase-app:
+    image: metabase/metabase
+    ports:
+      - 3001:3000
+    volumes:
+      - "/d/code/github/de-motor-collision-data-pipeline/local/docker/metabase_data:/metabase-data"
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=MVC_db
+      - MB_DB_PORT=5432
+      - MB_DB_USER=root
+      - MB_DB_PASS=root
+      - MB_DB_HOST=pgdatabase
+    depends_on:
+      - pgdatabase
