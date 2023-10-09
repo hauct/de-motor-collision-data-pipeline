@@ -6,6 +6,8 @@ prefect-gcp[cloud_storage]
 protobuf
 pyarrow
 pandas-gbq
+fastapi
+pydantic
 psycopg2-binary
 sqlalchemy
 metabase

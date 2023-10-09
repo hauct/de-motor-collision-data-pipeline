@@ -29,19 +29,18 @@ def download_data(data_type:str):
         data_type = data_type[:1]
         url = getattr(pipeline_set,f"url_{data_type}")
         csv_name = f"MVC_{data_type}.csv"
-        os.system(f"wget {url} -O {csv_name}")
+        os.system(f"curl -L -o {csv_name} {url}")
         return(csv_name, data_type)
     elif data_type in ["C","V","P"]:
         url = getattr(pipeline_set,f"url_{data_type}")
         csv_name = f"MVC_{data_type}.csv"
         if os.path.isfile(csv_name) is not True:
-            os.system(f"wget {url} -O {csv_name}")
+            os.system(f"curl -L -o {csv_name} {url}")
             return(csv_name, data_type)
         else:
             return(csv_name, data_type)
     else:
         return("err")
-
 
 # Task to create necessary tables to store downloaded data.
 @task(log_prints = True, tags=["creating_tables"])
@@ -57,7 +56,7 @@ def create_tables(csv_name:str, years:list , data_type:str):
     df.crash_time = pd.to_datetime(df.crash_time,format= '%H:%M' ).dt.time
 
     # Creates empty tables in a database
-    connection_block = SqlAlchemyConnector.load("psgres-connector")
+    connection_block = SqlAlchemyConnector.load("postgres-connector")
     engine = connection_block.get_connection(begin=False) 
     
     for i in years:
@@ -117,7 +116,7 @@ def transform_and_load(years:list, csv_name:str, engine, data_type:str):
 # Task to check if the data was successfully downloaded and saved into the database.
 @task(log_prints=True, tags=["checking downloaded data into database"])
 def check_downloaded_data():
-    connection_block = SqlAlchemyConnector.load("psgres-connector")
+    connection_block = SqlAlchemyConnector.load("postgres-connector")
     engine = connection_block.get_connection(begin=False) 
 
     res = [['year', 'Crashes','Vehicles','Person']]
@@ -237,14 +236,9 @@ def MVC_main(data_type, years):
 
 
 if __name__ == '__main__':
-
-    data_type = "C" # "C" for crashes, "V" for vehicles, "P" for person
-
     years = [i for i in range(2012,2024)]
 
-    MVC_main(data_type, years)
-    
-
-
-
+    MVC_main('C', years)
+    MVC_main('V', years)
+    MVC_main('P', years)
     
