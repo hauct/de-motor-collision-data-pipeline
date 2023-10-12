@@ -83,6 +83,55 @@ Go to http://127.0.0.1:4200/deployments and edit parameters for downloading and 
 
 ![Alt text](image/prefect-deployment-edit.png)
 
+```
+"name": "postgres-connector", "driver": "postgresql+psycopg2", "database": "MVC_db",
+
+"username": "root", "password": "root", "host": "localhost", "port": "5432"
+```
+
+Create prefect deployment file:
+```
+prefect deployment build ./pipeline.py:MVC_main -n MVC_flow
+```
+Open MVC_main-deployment.yaml file and make sure that "working_dir:" for download files is not empty (should be same as "path:" string in MVC_main-deployment.yaml file).
+
+Apply new deployment:
+```
+prefect deployment apply MVC_main-deployment.yaml
+```
+Go to http://127.0.0.1:4200/deployments and edit parameters for downloading and processing data:
+
+![Alt text](image/prefect-deployment-edit2.png)
+
+Select dataset for download:
+  * "C" for Motor Vehicle Collisions - Crashes
+  * "V" for Motor Vehicle Collisions - Vehicles
+  * "P" for Motor Vehicle Collisions - Person 
+  
+Select years for partitioning and upload into database(separate table for each selected year) and save it. Years presented in the dataset:
+```
+[2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+```
+
+Start prefect queue with name "default":
+```
+prefect agent start  --work-queue "default"
+```
+
+Start quick run with selected parameters:
+
+![Alt text](image/prefect-deployment-run.png)
+
+Data processing will start after uploading the CSV file. If the csv file was not completely downloaded, select data_type like "C reload"(example for "C" data type) and try again. It will start downloading the csv file with selected data type again.
+
+Go to http://127.0.0.1:4200/flow-runs and check logs of started flow. If everything is done correctly, information about the processed data should appear in the logs:
+
+![Alt text](image/prefect-deployment-run-success.png)
+
+After finishing the data processing for the three datasets ("C", "V", and "P"), select "check" for the data_type and execute this process.
+
+
+
 
 
 
