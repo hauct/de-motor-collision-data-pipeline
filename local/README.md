@@ -130,13 +130,15 @@ Go to http://127.0.0.1:4200/flow-runs and check logs of started flow. If everyth
 
 After finishing the data processing for the three datasets ("C", "V", and "P"), select "check" for the data_type and execute this process.
 
+![Alt text](image/prefect-check.png)
 
+![Alt text](image/prefect-check1.png)
 
+Make sure via pgAdmin, that all needed data was ingested in database(tables must be in "public" schema):
 
+![Alt text](image/pgadmin-success-updata.png)
 
-
-
-
+## Step 4 - Refine, model, and standardize data inside the database through `DBT`
 
 
 
