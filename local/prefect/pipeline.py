@@ -209,8 +209,6 @@ def metabase(years:list):
             mb.create_card(custom_json = crd, collection_id = colid)
             print(f"card {crdnm} overwrited")
 
-
-
 @flow(name="MVC_main", log_prints=True, description = "Select dataset for processing: \n \
 'C' for Motor Vehicle Collisions - Crashes \n\
 'V' for Motor Vehicle Collisions - Vehicles \n\

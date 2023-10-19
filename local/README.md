@@ -2,8 +2,6 @@
 
 This manual provides the steps required to replicate the outcomes of the project:
 
-[Step 0](https://github.com/KazarkinBarys/Data_Engineering_Zoomcamp_Project/blob/main/Local_version/README.md#step-0---preparation) - Preparation
-
 ## Project architecture
 
 1. Establish a PostgreSQL database and its environment using `Docker`.
@@ -27,7 +25,7 @@ pip install -r requirements.txt
 pip install dbt-postgres
 ```
 
-## Establish a PostgreSQL database and its environment using `Docker`.
+## Step 1 - Establish a PostgreSQL database and its environment using `Docker`.
 
 Begin by specifying your mount volumes within the docker-compose.yaml file.
 
@@ -140,20 +138,97 @@ Make sure via pgAdmin, that all needed data was ingested in database(tables must
 
 ## Step 4 - Refine, model, and standardize data inside the database through `DBT`
 
+Incorporate details into profiles.yml from the profiles.yml document.
 
+Verify the link between the "dbt" directory and the database using:
 
+```bash
+dbt debug
+```
 
+```bash
+$ dbt debug
+07:39:53  Running with dbt=1.6.6
+07:39:53  dbt version: 1.6.6
+07:39:53  python version: 3.11.3
+07:39:53  python path: C:\Users\cungt\anaconda3\python.exe
+07:39:53  os info: Windows-10-10.0.22621-SP0
+07:39:53  Using profiles dir at D:\code\github\de-motor-collision-data-pipeline\local\dbt
+07:39:53  Using profiles.yml file at D:\code\github\de-motor-collision-data-pipeline\local\dbt\profiles.yml
+07:39:53  Using dbt_project.yml file at D:\code\github\de-motor-collision-data-pipeline\local\dbt\dbt_project.yml
+07:39:53  adapter type: postgres
+07:39:53  adapter version: 1.6.6
+07:39:53  Configuration:
+07:39:53    profiles.yml file [OK found and valid]
+07:39:53    dbt_project.yml file [OK found and valid]
+07:39:53  Required dependencies:
+07:39:53   - git [OK found]
 
+07:39:53  Connection:
+07:39:53    host: localhost
+07:39:53    port: 5432
+07:39:53    user: root
+07:39:53    database: MVC_db
+07:39:53    schema: public
+07:39:53    connect_timeout: 10
+07:39:53    role: None
+07:39:53    search_path: None
+07:39:53    keepalives_idle: 0
+07:39:53    sslmode: None
+07:39:53    sslcert: None
+07:39:53    sslkey: None
+07:39:53    sslrootcert: None
+07:39:53    application_name: dbt
+07:39:53    retries: 1
+07:39:53  Registered adapter: postgres=1.6.6
+07:39:53    Connection test: [OK connection ok]
 
+07:39:53  All checks passed!
+(base) 
+```
 
+Run this script:
 
+```bash
+dbt run
+```
 
+and then in your docker pgadmin, check your recently created tables
 
+![Alt text](image/pgadmin-created-tables.png)
 
+## Step 5 - Display the processed and standardized data using `Metabase`.
 
+Access Metabase at http://localhost:3001. Create your metabase account. In my case i will create the email and password below:
 
+![Alt text](image/metabase-create-account.png)
 
+```bash
+email = metabase@login.com
+passwords = metabase123
+```
 
+Connect to your postgres database
+
+![Alt text](image/metabase_connect_database.png)
+
+After that, return to `http://127.0.0.1:4200`, Run the deployment with the parameters above to create chart on metabase
+
+![Alt text](image/prefect-deployment-create-chart.png)
+
+Everything is okay when you see the charts created on your metabase page
+
+![Alt text](image/metabase-create-charts.png)
+
+Now, you can create a dashboard, this depends on your custom style. Here is one example of mine:
+
+![Alt text](image/metabase-create-dashboard.png)
+
+![Alt text](image/metabase_create_dashboard1.png)
+
+![Alt text](image/metabase-create-dashboard2.png)
+
+![Alt text](image/metabase_create_dashboard3.png)
 
 
 

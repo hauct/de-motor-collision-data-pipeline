@@ -170,7 +170,7 @@ MVC_NYC = {'description': None,
  'query_type': 'native',
  'name': 'Motor Vehicle Collisions (2012-2023) New York City',
  'dataset_query': {'type': 'native',
-  'native': {'query': 'SELECT SUM(total_crashes_am) AS "Total Crashes", SUM(total_vhc_am) AS "Total Vehicles involved in Crashes", SUM(total_person_am)  AS "Total Persons involved in Crashes"\r\nFROM "MVC_summarize".mvc_dataset_overview',
+  'native': {'query': 'SELECT SUM(total_crashes_am) AS "Total Crashes", SUM(total_vhc_am) AS "Total Vehicles involved in Crashes", SUM(total_person_am)  AS "Total Persons involved in Crashes"\r\nFROM mvc_dataset_overview',
    'template-tags': {}},
   'database': 2},
  'display': 'object',
@@ -281,7 +281,7 @@ MVC_NYC_DO = {'description': None,
  'query_type': 'native',
  'name': 'Motor Vehicle Collisions (2012-2023) New York City Dataset Overview',
  'dataset_query': {'type': 'native',
-  'native': {'query': 'SELECT "year", "no_vhc_data_%" AS "No Vhc Data %", "no_person_data_%" AS "No Person Data %",  "no_vhc_type_data_%" AS "No Vhc Type Data %", \r\n"no_age_data_%" AS "No Age Data %", "no_sex_data_%" AS "No Sex Data %", "no_borough_data_%" AS "No Borough Data %"\r\nFROM "MVC_summarize".mvc_dataset_overview',
+  'native': {'query': 'SELECT "year", "no_vhc_data_%" AS "No Vhc Data %", "no_person_data_%" AS "No Person Data %",  "no_vhc_type_data_%" AS "No Vhc Type Data %", \r\n"no_age_data_%" AS "No Age Data %", "no_sex_data_%" AS "No Sex Data %", "no_borough_data_%" AS "No Borough Data %"\r\nFROM mvc_dataset_overview',
    'template-tags': {}},
   'database': 2},
  'parameter_mappings': [],
@@ -336,7 +336,7 @@ VT_iiC = {'description': None,
  'query_type': 'native',
  'name': 'Vehicle Types involved in Crashes',
  'dataset_query': {'type': 'native',
-  'native': {'query': 'with tbl AS(\r\nSELECT vhc_type_ AS vhc_type, SUM(vhc_type_am) AS vhc_type_am FROM (\r\n\tSELECT CASE\r\n\tWHEN lower(vhc_type) LIKE \'passenger%\' THEN \'Passenger Vehicle\'\r\n\twhen lower(vhc_type) LIKE \'%sport utility%\' THEN \'Sport Utility / Station Wagon\'\r\n\twhen lower(vhc_type) LIKE \'taxi%\' THEN \'Taxi\'\r\n\twhen lower(vhc_type) LIKE \'pick%\' THEN \'Pick-up Truck\'\r\n\twhen lower(vhc_type) LIKE \'bus%\' THEN \'Bus\'\r\n\twhen lower(vhc_type) LIKE \'van%\' THEN \'Van\'\r\n\twhen lower(vhc_type) LIKE \'unkno%\' THEN \'Unknown\'\r\n\twhen lower(vhc_type) LIKE \'other%\' THEN \'Unknown\'\r\n\tELSE vhc_type END AS vhc_type_, vhc_type_am\r\n\tFROM "MVC_summarize".mvc_sum_all \r\n\tWHERE vhc_type IS NOT NULL) vhc_t \r\n GROUP BY vhc_type_)\r\nSELECT vhc_type AS "Vehicle Types involved in Crashes", SUM(vhc_type_am) AS amount\r\nFROM tbl GROUP BY vhc_type ORDER BY amount DESC',
+  'native': {'query': 'with tbl AS(\r\nSELECT vhc_type_ AS vhc_type, SUM(vhc_type_am) AS vhc_type_am FROM (\r\n\tSELECT CASE\r\n\tWHEN lower(vhc_type) LIKE \'passenger%\' THEN \'Passenger Vehicle\'\r\n\twhen lower(vhc_type) LIKE \'%sport utility%\' THEN \'Sport Utility / Station Wagon\'\r\n\twhen lower(vhc_type) LIKE \'taxi%\' THEN \'Taxi\'\r\n\twhen lower(vhc_type) LIKE \'pick%\' THEN \'Pick-up Truck\'\r\n\twhen lower(vhc_type) LIKE \'bus%\' THEN \'Bus\'\r\n\twhen lower(vhc_type) LIKE \'van%\' THEN \'Van\'\r\n\twhen lower(vhc_type) LIKE \'unkno%\' THEN \'Unknown\'\r\n\twhen lower(vhc_type) LIKE \'other%\' THEN \'Unknown\'\r\n\tELSE vhc_type END AS vhc_type_, vhc_type_am\r\n\tFROM mvc_sum_all \r\n\tWHERE vhc_type IS NOT NULL) vhc_t \r\n GROUP BY vhc_type_)\r\nSELECT vhc_type AS "Vehicle Types involved in Crashes", SUM(vhc_type_am) AS amount\r\nFROM tbl GROUP BY vhc_type ORDER BY amount DESC',
    'template-tags': {}},
   'database': 2},
  'parameter_mappings': [],
@@ -381,7 +381,7 @@ CF = {'description': None,
  'query_type': 'native',
  'name': 'Contributing Factor',
  'dataset_query': {'type': 'native',
-  'native': {'query': 'SELECT contr_f AS "Contributing Factor", SUM(contr_f_am) AS amount\r\nFROM "MVC_summarize".mvc_sum_all GROUP BY contr_f ORDER BY amount DESC',
+  'native': {'query': 'SELECT contr_f AS "Contributing Factor", SUM(contr_f_am) AS amount\r\nFROM mvc_sum_all GROUP BY contr_f ORDER BY amount DESC',
    'template-tags': {}},
   'database': 2},
  'display': 'pie',
@@ -425,7 +425,7 @@ GD_IC = {'description': None,
  'query_type': 'native',
  'name': 'Gender of Drivers involved in Crashes',
  'dataset_query': {'type': 'native',
-  'native': {'query': 'WITH tbl AS( SELECT CASE WHEN sex = \'M\' THEN \'Male\' WHEN sex = \'F\' THEN \'Female\'\r\nELSE \'Unknown\' end as gender, age, age_am  FROM "MVC_summarize".mvc_sum_all )\r\nSELECT gender AS "Gender of Drivers involved in Crashes", SUM(age_am) FROM tbl GROUP BY gender',
+  'native': {'query': 'WITH tbl AS( SELECT CASE WHEN sex = \'M\' THEN \'Male\' WHEN sex = \'F\' THEN \'Female\'\r\nELSE \'Unknown\' end as gender, age, age_am  FROM mvc_sum_all )\r\nSELECT gender AS "Gender of Drivers involved in Crashes", SUM(age_am) FROM tbl GROUP BY gender',
    'template-tags': {}},
   'database': 2},
  'parameter_mappings': [],
@@ -484,7 +484,7 @@ MVC_crashes_per_month = {'description': None,
  'name': 'MVC_crashes_per_month',
  'embedding_params': None,
  'dataset_query': {'type': 'native',
-  'native': {'query': 'SELECT concat("year",\'-\',TO_CHAR("month",\'fm09\')) AS "Date", SUM(all_amount)AS "Crashes/month",\r\nSUM(injured_am) AS "Crashes/month with injuries"\r\nFROM "MVC_summarize".mvc_crashes_per_hour \r\nWHERE "year" between 2016 and 2022\r\nGROUP BY concat("year",\'-\',TO_CHAR("month",\'fm09\')) \r\nORDER BY "Date"',
+  'native': {'query': 'SELECT concat("year",\'-\',TO_CHAR("month",\'fm09\')) AS "Date", SUM(all_amount)AS "Crashes/month",\r\nSUM(injured_am) AS "Crashes/month with injuries"\r\nFROM mvc_crashes_per_hour \r\nWHERE "year" between 2016 and 2022\r\nGROUP BY concat("year",\'-\',TO_CHAR("month",\'fm09\')) \r\nORDER BY "Date"',
    'template-tags': {}},
   'database': 2},
  'display': 'area',
@@ -496,48 +496,143 @@ MVC_crashes_per_month = {'description': None,
 }
 
 "Age of Drivers involved in Crashes"
-AD_iC = {'description': None,
- 'archived': False,
- 'collection_position': None,
- 'table_id': None,
- 'result_metadata': [{'display_name': 'Age of Drivers involved in Crashes',
-   'field_ref': ['field',
-    'Age of Drivers involved in Crashes',
-    {'base-type': 'type/Text'}],
-   'name': 'Age of Drivers involved in Crashes',
-   'base_type': 'type/Text',
-   'effective_type': 'type/Text',
-   'semantic_type': None,
-   'fingerprint': {'global': {'distinct-count': 7, 'nil%': 0.1428571428571429},
-    'type': {'type/Text': {'percent-json': 0,
-      'percent-url': 0,
-      'percent-email': 0,
-      'percent-state': 0,
-      'average-length': 3.7142857142857144}}}},
-  {'display_name': 'amount',
-   'field_ref': ['field', 'amount', {'base-type': 'type/Decimal'}],
-   'name': 'amount',
-   'base_type': 'type/Decimal',
-   'effective_type': 'type/Decimal',
-   'semantic_type': None,
-   'fingerprint': {'global': {'distinct-count': 7, 'nil%': 0},
-    'type': {'type/Number': {'min': 7066,
-      'q1': 40868.25,
-      'q3': 424303.5,
-      'max': 511123,
-      'sd': 216061.26300790577,
-      'avg': 254916.7142857143}}}}],
- 'can_write': True,
- 'enable_embedding': False,
- 'query_type': 'native',
- 'name': 'Age of Drivers involved in Crashes',
- 'dataset_query': {'type': 'native',
-  'native': {'query': 'SELECT "age" AS "Age of Drivers involved in Crashes", SUM(age_am) AS amount\r\nFROM "MVC_summarize".mvc_sum_all GROUP BY "age" ORDER BY amount DESC',
-   'template-tags': {}},
-  'database': 2},
- 'display': 'pie',
- 'collection_preview': True,
- 'visualization_settings': {'pie.slice_threshold': 3}
+AD_iC = {
+    "description": None,
+    "archived": False,
+    "collection_position": None,
+    "table_id": None,
+    "result_metadata": [
+        {
+            "display_name": "Age of Drivers involved in Crashes",
+            "field_ref": [
+                "field",
+                "Age of Drivers involved in Crashes",
+                {
+                    "base-type": "type/Text"
+                }
+            ],
+            "name": "Age of Drivers involved in Crashes",
+            "base_type": "type/Text",
+            "effective_type": "type/Text",
+            "semantic_type": None,
+            "fingerprint": {
+                "global": {
+                    "distinct-count": 7,
+                    "nil%": 0.1428571428571429
+                },
+                "type": {
+                    "type/Text": {
+                        "percent-json": 0.0,
+                        "percent-url": 0.0,
+                        "percent-email": 0.0,
+                        "percent-state": 0.0,
+                        "average-length": 3.7142857142857144
+                    }
+                }
+            }
+        },
+        {
+            "display_name": "amount",
+            "field_ref": [
+                "field",
+                "amount",
+                {
+                    "base-type": "type/Decimal"
+                }
+            ],
+            "name": "amount",
+            "base_type": "type/Decimal",
+            "effective_type": "type/Decimal",
+            "semantic_type": None,
+            "fingerprint": {
+                "global": {
+                    "distinct-count": 7,
+                    "nil%": 0.0
+                },
+                "type": {
+                    "type/Number": {
+                        "min": 4031.0,
+                        "q1": 18820.0,
+                        "q3": 197224.25,
+                        "max": 249283.0,
+                        "sd": 103208.27261555012,
+                        "avg": 120919.57142857143
+                    }
+                }
+            }
+        }
+    ],
+    "creator": {
+        "email": "metabase@login.com",
+        "first_name": "root_user",
+        "last_login": "2023-10-15T16:47:56.991136Z",
+        "is_qbnewb": False,
+        "is_superuser": True,
+        "id": 1,
+        "last_name": None,
+        "date_joined": "2023-10-15T10:49:20.200936Z",
+        "common_name": "root_user"
+    },
+    "can_write": True,
+    "database_id": 3,
+    "enable_embedding": False,
+    "collection_id": 2,
+    "query_type": "native",
+    "name": "Age of Drivers involved in Crashes",
+    "last_query_start": "2023-10-15T16:39:52.09588Z",
+    "dashboard_count": 0,
+    "average_query_time": 27.5,
+    "creator_id": 1,
+    "moderation_reviews": [],
+    "updated_at": "2023-10-15T16:39:52.120135Z",
+    "made_public_by_id": None,
+    "embedding_params": None,
+    "cache_ttl": None,
+    "dataset_query": {
+        "type": "native",
+        "native": {
+            "query": "SELECT \"age\" AS \"Age of Drivers involved in Crashes\", SUM(age_am) AS amount\r\nFROM mvc_sum_all GROUP BY \"age\" ORDER BY amount DESC",
+            "template-tags": {}
+        },
+        "database": 3
+    },
+    "id": 15,
+    "parameter_mappings": [],
+    "display": "pie",
+    "entity_id": "-cZgLvpCuUZ26gkygJpPI",
+    "collection_preview": True,
+    "last-edit-info": {
+        "id": 1,
+        "email": "metabase@login.com",
+        "first_name": "root_user",
+        "last_name": None,
+        "timestamp": "2023-10-15T16:39:51.912976Z"
+    },
+    "visualization_settings": {
+        "pie.slice_threshold": 3,
+        "table.pivot_column": "Age of Drivers involved in Crashes",
+        "table.cell_column": "amount"
+    },
+    "collection": {
+        "authority_level": None,
+        "description": None,
+        "archived": False,
+        "slug": "mvc_collection",
+        "color": "#509EE3",
+        "name": "MVC_collection",
+        "personal_owner_id": None,
+        "type": None,
+        "id": 2,
+        "entity_id": "fNJk5p4Q4cDZHoVMZ8QmO",
+        "location": "/",
+        "namespace": None,
+        "created_at": "2023-10-15T10:49:37.571501Z"
+    },
+    "parameters": [],
+    "dataset": False,
+    "created_at": "2023-10-15T16:26:20.407932Z",
+    "parameter_usage_count": 0,
+    "public_uuid": None
 }
 
 "MVC_crashes_per_hour"
@@ -592,7 +687,7 @@ MVC_crashes_per_hour = {'description': None,
  'query_type': 'native',
  'name': 'MVC_crashes_per_hour',
  'dataset_query': {'type': 'native',
-  'native': {'query': 'SELECT time_interval AS "Time Interval", AVG(all_amount) AS "Average of all crashes/h", AVG(injured_am) AS "Average of crashes/h with injuries"\r\nFROM "MVC_summarize".mvc_crashes_per_hour GROUP BY time_interval ORDER BY "Time Interval"',
+  'native': {'query': 'SELECT time_interval AS "Time Interval", AVG(all_amount) AS "Average of all crashes/h", AVG(injured_am) AS "Average of crashes/h with injuries"\r\nFROM mvc_crashes_per_hour GROUP BY time_interval ORDER BY "Time Interval"',
    'template-tags': {}},
   'database': 2},
  'display': 'area',
