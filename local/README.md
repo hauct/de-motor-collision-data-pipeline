@@ -1,4 +1,4 @@
-# Step-by-Step Guide for Data Engineering Zoomcamp Project (local version)
+# Step-by-Step Guide for Motor Collision Data Project (local version)
 
 This manual provides the steps required to replicate the outcomes of the project:
 
